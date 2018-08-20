@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
+ * 修改数据则插入redis 一条记录1秒
  *  void batch(Statement statement)
  throws SQLException;
 
@@ -43,11 +44,16 @@ public class MasterUpdateInterceptor implements Interceptor {
         List<String> tableList = tablesNamesFinder
                 .getTableList(jstatement);
         Jedis jedis=null;
-        for (String tableName:tableList){
-            jedis=pool.getResource();
-            jedis.setex(MASTER_SLAVE_DIFFER+tableName,1,"1");
+        try{
+            for (String tableName:tableList){
+                jedis=pool.getResource();
+                jedis.setex(MASTER_SLAVE_DIFFER+tableName,1,"1");
+            }
+        }finally {
+            if (null != jedis){
+                jedis.close();
+            }
         }
-        jedis.close();
         return invocation.proceed();
     }
 

@@ -62,16 +62,20 @@ public class WriteReadInterceptor implements Interceptor {
                 .getTableList(select);
         Jedis jedis = null;
 
-
-        for(String tableName :tableList){
+        try{
             jedis = pool.getResource();
-            /**
-             * 能取到值则 说说明最近一秒数据又修改 可能还没同步到从库，所以走查询主库
-             */
-            if(!StringUtils.isEmpty(jedis.get(MASTER_SLAVE_DIFFER+tableName))){
-                DatabaseContextHolder.setDatabaseType(DatabaseType.masterDb);
+            for(String tableName :tableList){
+                /**
+                 * 能取到值则 说说明最近一秒数据又修改 可能还没同步到从库，所以走查询主库
+                 */
+                if(!StringUtils.isEmpty(jedis.get(MASTER_SLAVE_DIFFER+tableName))){
+                    DatabaseContextHolder.setDatabaseType(DatabaseType.masterDb);
+                }
             }
-            jedis.close();
+        }finally {
+            if (null != jedis){
+                jedis.close();
+            }
         }
         return invocation.proceed();
     }

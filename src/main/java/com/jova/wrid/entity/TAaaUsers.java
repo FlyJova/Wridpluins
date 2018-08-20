@@ -24,11 +24,11 @@ public class TAaaUsers {
     private Date updateTime;
 
     private String updateBy;
-    //统计该用户所有的代账公司数目
+
     private Integer number;
-    //用户角色
+
     private List<Long> roleIds;
-    //groupId:groupName
+
     private Map<Long,String> idGroupName;
 
     public Map<Long, String> getIdGroupName() {
