@@ -66,11 +66,12 @@ public class MyBatisConfig {
      * 根据数据源创建SqlSessionFactory
      */
     @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource slaveDataSource) throws Exception {
+    public SqlSessionFactory sqlSessionFactory(DataSource masterDataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(slaveDataSource);
+        sqlSessionFactoryBean.setDataSource(masterDataSource);
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
+        // 添加Plugins
         sqlSessionFactoryBean.setPlugins(new Interceptor[]{writeReadInterceptor,masterUpdateInterceptor});
         return sqlSessionFactoryBean.getObject();
     }
