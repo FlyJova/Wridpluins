@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--通过这个配置文件，完成mybatis与数据库的连接  -->
+<configuration>
+    <!-- 注意此配置文件内的元素的  -->
+    <!-- 引入database.properties文件 -->
+   <!-- <properties resource="application.properties"/>-->
+    <!--配置mybatis的log实现为LOG4J  -->
+    <!-- 配置后，后台就会有sql语句的输出 -->
+
+
+    <plugins>
+        <plugin interceptor="com.jova.wrid.pluins.WriteReadInterceptor"/>
+    </plugins>
+
+<!--
+    <environments default="development">
+        <environment id="development">
+            &lt;!&ndash; 配置事务管理 ，采用JDBC管理事务&ndash;&gt;
+            <transactionManager type="JDBC"/>
+            &lt;!&ndash; POOLED是mybatis的 数据源 &ndash;&gt;
+            &lt;!&ndash; JNDI是基于tomcat的数据源 &ndash;&gt;
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver-class-name}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+
+
+   &lt;!&ndash; pojo的映射文件UserMapper引入到配入到配置文件中 &ndash;&gt;
+    <mappers>
+        &lt;!&ndash; resource要写成路径 &ndash;&gt;
+        <mapper resource="mapper/TAaaUsersMapper.xml"/>
+
+    </mappers>-->
+
+</configuration>
