@@ -11,7 +11,9 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -21,15 +23,19 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 @Configuration
-public class MyBatisConfig {
+public class MyBatisConfig  {
 
     @Autowired
     private WriteReadInterceptor writeReadInterceptor;
 
     @Autowired
     MasterUpdateInterceptor masterUpdateInterceptor;
+
+    @Value("${master2slave.time}")
+    private String master2slaveTime;
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.master")
@@ -71,6 +77,9 @@ public class MyBatisConfig {
         sqlSessionFactoryBean.setDataSource(masterDataSource);
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
+        Properties properties = new Properties();
+        properties.setProperty("master2slaveTime",master2slaveTime);
+        masterUpdateInterceptor.setProperties(properties);
         // 添加Plugins
         sqlSessionFactoryBean.setPlugins(new Interceptor[]{writeReadInterceptor,masterUpdateInterceptor});
         return sqlSessionFactoryBean.getObject();

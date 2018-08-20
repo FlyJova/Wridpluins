@@ -19,4 +19,12 @@ public class UserDao {
          return tAaaUsersMapper.updateByPrimaryKeySelective(users);
       }
 
+    public int deleteByPrimaryKey(Long id){
+        return tAaaUsersMapper.deleteByPrimaryKey(id);
+    }
+
+    public int insertSelective(TAaaUsers users){
+        return tAaaUsersMapper.insertSelective(users);
+    }
+
 }

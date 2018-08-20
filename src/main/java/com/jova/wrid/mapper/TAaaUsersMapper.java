@@ -8,5 +8,6 @@ public interface TAaaUsersMapper {
 
     TAaaUsers selectByPrimaryKey(Long id);
     int updateByPrimaryKeySelective(TAaaUsers users);
-
+    int deleteByPrimaryKey(Long id);
+    int insertSelective(TAaaUsers users);
 }

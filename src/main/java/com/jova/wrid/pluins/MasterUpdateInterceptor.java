@@ -32,6 +32,8 @@ public class MasterUpdateInterceptor implements Interceptor {
 
     final String MASTER_SLAVE_DIFFER = "MASTER:SLAVE:DIFFER:";
 
+    int TABLE_KEY_EXP=0;
+
     @Autowired
     JedisPool pool;
 
@@ -47,7 +49,7 @@ public class MasterUpdateInterceptor implements Interceptor {
         try{
             for (String tableName:tableList){
                 jedis=pool.getResource();
-                jedis.setex(MASTER_SLAVE_DIFFER+tableName,1,"1");
+                jedis.setex(MASTER_SLAVE_DIFFER+tableName,TABLE_KEY_EXP,"1");
             }
         }finally {
             if (null != jedis){
@@ -64,6 +66,6 @@ public class MasterUpdateInterceptor implements Interceptor {
 
     @Override
     public void setProperties(Properties properties) {
-
+        TABLE_KEY_EXP = Integer.valueOf(properties.get("master2slaveTime").toString());
     }
 }
