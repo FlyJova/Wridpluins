@@ -23,6 +23,11 @@ public class UserServiceImpl implements UserService {
         users.seteMail("xxxx_@yzf.com_"+System.currentTimeMillis());
         users.setCreateTime(new Date());
         userDao.updateByPrimaryKeySelective(users);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return userDao.selectByPrimaryKey(usrId).toString();
     }
 
