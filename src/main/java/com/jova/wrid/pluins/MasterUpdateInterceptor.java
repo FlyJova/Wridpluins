@@ -14,6 +14,12 @@ import java.util.List;
 import java.util.Properties;
 
 /**
+ *
+ * 修改/插入/删除 数据时
+ * 修改成功则 将表名作为key放入redis  1秒（可配置）
+ *
+ * @author zhangqw
+ * @date 2018-08-14
  * 修改数据则插入redis 一条记录1秒
  *  void batch(Statement statement)
  throws SQLException;
