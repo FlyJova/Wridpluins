@@ -32,16 +32,23 @@ public class TestController {
      * @param usrId
      * @return
      */
-    @RequestMapping("/updateAndSelectNo")
+    @RequestMapping("/updateAndSelectNoT")
     public  String getUserNoT(@RequestParam(name = "id") Long usrId){
+        return userService.updateAndSelectNoT(usrId);
+    }
 
-        return userService.updateAndSelect(usrId);
+    /**
+     * 验证查询不参与事务的情况
+     * @param usrId
+     * @return
+     */
+    @RequestMapping("/updateAndSelectNotS")
+    public  String getUserNotS(@RequestParam(name = "id") Long usrId){
+        return userService.updateAndSelectNotS(usrId);
     }
 
     @RequestMapping("/delete/{id}")
     public  String delete(@PathVariable("id") Long id){
-
-
         userService.deleteByPrimaryKey(id);
         return "success";
     }
