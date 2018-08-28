@@ -29,3 +29,9 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 AUTO_INCREMENT=1
 ;
+
+入口：
+TestController
+1./updateAndSelect?id=1  验证有事务且查询参与事务的情况
+2./updateAndSelectNoT?id=1  验证无事务的情况
+3./updateAndSelectNoT?id=1  验证查询不参与事务的情况
