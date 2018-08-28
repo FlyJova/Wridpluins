@@ -16,10 +16,26 @@ public class TestController {
     @Autowired
     private com.jova.wrid.service.UserService userService;
 
+    /**
+     * 验证有事务且查询参与事务的情况
+     * @param usrId
+     * @return
+     */
     @RequestMapping("/updateAndSelect")
     public  String getUser(@RequestParam(name = "id") Long usrId){
 
       return userService.updateAndSelect(usrId);
+    }
+
+    /**
+     * 验证无事务的情况
+     * @param usrId
+     * @return
+     */
+    @RequestMapping("/updateAndSelectNo")
+    public  String getUserNoT(@RequestParam(name = "id") Long usrId){
+
+        return userService.updateAndSelect(usrId);
     }
 
     @RequestMapping("/delete/{id}")
