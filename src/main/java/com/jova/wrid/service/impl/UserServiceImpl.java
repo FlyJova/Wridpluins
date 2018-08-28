@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 查询不参与事务，则切换数据源成功
+     * 如果一定要查询从库，则查询不要参与事务（ @Transactional(propagation = Propagation.NOT_SUPPORTED)）
      * @param usrId
      * @return
      */
