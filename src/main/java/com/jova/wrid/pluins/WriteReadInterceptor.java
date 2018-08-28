@@ -55,6 +55,9 @@ public class WriteReadInterceptor implements Interceptor {
         }
         Object[] objects  =invocation.getArgs();
         String sql = ((MappedStatement)objects[0]).getSqlSource().getBoundSql(objects[1]).getSql();
+        /**
+         * 解析sql  获取所有table 名称
+         */
        net.sf.jsqlparser.statement.Statement jstatement = CCJSqlParserUtil.parse(sql);
         Select select = (Select) jstatement;
         TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();

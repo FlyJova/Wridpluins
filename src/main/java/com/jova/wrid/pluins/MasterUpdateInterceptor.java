@@ -47,6 +47,9 @@ public class MasterUpdateInterceptor implements Interceptor {
     public Object intercept(Invocation invocation) throws Throwable {
         StatementHandler statementHandler = (StatementHandler)invocation.getTarget();
         String sql = statementHandler.getBoundSql().getSql();
+        /**
+         * 解析sql  获取table 名称
+         */
         net.sf.jsqlparser.statement.Statement jstatement = CCJSqlParserUtil.parse(sql);
         TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();
         List<String> tableList = tablesNamesFinder
