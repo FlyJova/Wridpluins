@@ -14,7 +14,6 @@ import redis.clients.jedis.JedisPool;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Properties;
 
@@ -26,6 +25,7 @@ import java.util.Properties;
  * 如果redis 中无该key 则继续读从库，
  * 如果redis 中有key 说明该表1秒内有修改过数据,切换db到主库，读主库
  * @author zhangqw
+ * QQ：776003038
  * @date 2018-08-14
  *
  *
@@ -69,7 +69,7 @@ public class WriteReadInterceptor implements Interceptor {
             jedis = pool.getResource();
             for(String tableName :tableList){
                 /**
-                 * 能取到值则 说说明最近一秒数据又修改 可能还没同步到从库，所以走查询主库
+                 * 能取到值则说明最近一秒数据有修改 可能还没同步到从库，所以走查询主库
                  */
                 if(!StringUtils.isEmpty(jedis.get(MASTER_SLAVE_DIFFER+tableName))){
                     DatabaseContextHolder.setDatabaseType(DatabaseType.masterDb);

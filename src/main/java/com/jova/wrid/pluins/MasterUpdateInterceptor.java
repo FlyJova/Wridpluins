@@ -19,6 +19,7 @@ import java.util.Properties;
  * 修改成功则 将表名作为key放入redis  1秒（可配置）
  *
  * @author zhangqw
+ * QQ：776003038
  * @date 2018-08-14
  * 修改数据则插入redis 一条记录1秒
  *  void batch(Statement statement)
@@ -54,8 +55,15 @@ public class MasterUpdateInterceptor implements Interceptor {
         TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();
         List<String> tableList = tablesNamesFinder
                 .getTableList(jstatement);
-        Jedis jedis=null;
+        Jedis jedis = null;
+        /**
+         * 先执行修改
+         */
+        Object object = invocation.proceed();
         try{
+            /***
+             * 修改执行成功后插入redis 1秒
+             */
             for (String tableName:tableList){
                 jedis=pool.getResource();
                 jedis.setex(MASTER_SLAVE_DIFFER+tableName,TABLE_KEY_EXP,"1");
@@ -65,7 +73,7 @@ public class MasterUpdateInterceptor implements Interceptor {
                 jedis.close();
             }
         }
-        return invocation.proceed();
+        return object;
     }
 
     @Override
