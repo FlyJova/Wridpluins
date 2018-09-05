@@ -73,6 +73,7 @@ public class WriteReadInterceptor implements Interceptor {
                  */
                 if(!StringUtils.isEmpty(jedis.get(MASTER_SLAVE_DIFFER+tableName))){
                     DatabaseContextHolder.setDatabaseType(DatabaseType.masterDb);
+                    break;
                 }
             }
         }finally {
